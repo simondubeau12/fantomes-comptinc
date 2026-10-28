@@ -114,10 +114,9 @@ function refresh() {
   }
   $("bar").style.width = (n / N * 100) + "%";
   $("count").textContent = n + " / " + N;
-  try { localStorage.setItem("fantomes", JSON.stringify(Object.fromEntries(new FormData($("form"))))); } catch (e) {}
 }
-// brouillon conservé sur le téléphone
-try { const d = JSON.parse(localStorage.getItem("fantomes") || "{}"); for (const [k, v] of Object.entries(d)) { const el = document.querySelector(`[name="${CSS.escape(k)}"]`); if (el) el.value = v; } } catch (e) {}
+// aucune réponse conservée sur l'appareil (anonymat)
+try { localStorage.removeItem("fantomes"); } catch (e) {}
 $("form").addEventListener("change", refresh); $("tie").addEventListener("input", refresh);
 refresh();
 
