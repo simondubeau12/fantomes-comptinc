@@ -86,8 +86,8 @@ li.card label { margin: 0 0 6px; color: var(--bone); font-size: 14px; }
 // ⚙️ Colle ici l'adresse de ton formulaire Formspree (ex. https://formspree.io/f/abcdwxyz)
 const FORMSPREE_URL = "https://formspree.io/f/xvkkryvp";
 
-const PEOPLE = ["Abdul Kader Berete","Alex Girard","Alexandre St-Amour","Alina Polojenco","Constance Athané","David Tak-Yuen Yeung","Edwige Graff","Eric Fournier","Estelle Jarrige","Félix Henri","François Boutin","Frédéric Pétrin","Jay Zhang","Jonathan McCall","Juliette Hall","Juliette Tremblay","Laura Mispoulet","Maude Gascon","Meita Silue","Mylène Charbonneau","Naomie Van Dorpe","Sadaf Zaywari","Sarah Saaoud","Sérine Hamitouche","Simon Dubeau","Sonia Ammar"];
-const COSTUMES = ["Squelette","Araignée","Loup-garou","Chauve-souris","Pirate","Bonbon maïs","Bonbons ou sort","Épouvantail","Clown","Ange","Chauve-souris perchée","Diable","Frankenstein","Magicien","Dracula","Tête de citrouille","Roi des morts","Fiancée","Momie","Chat noir","Zombie","Balai","Chaudron","Boulet","Bonnet de nuit","Sac de bonbons"];
+const PEOPLE = ["Abdul Kader Berete","Adna Abdilahi","Alex Girard","Alexandre St-Amour","Alina Polojenco","Aynur Bugra","Constance Athané","David Tak-Yuen Yeung","Edwige Graff","Eric Fournier","Estelle Jarrige","Félix Henri","François Boutin","Frédéric Pétrin","Jay Zhang","Jonathan McCall","Juliette Hall","Juliette Tremblay","Laura Mispoulet","Maude Gascon","Meita Silue","Mylène Charbonneau","Naomie Van Dorpe","Sadaf Zaywari","Sarah Saaoud","Sérine Hamitouche","Simon Dubeau","Sonia Ammar","Zeinab Diarrassouba"];
+const COSTUMES = ["Squelette","Araignée","Sorcière","Loup-garou","Chauve-souris","Pirate","Bonbon maïs","Bonbons ou sort","Épouvantail","Clown","Ange","BOUH!","Chauve-souris perchée","Diable","Frankenstein","Magicien","Dracula","Croque-mort","Tête de citrouille","Roi des morts","Fiancée","Momie","Chat noir","Zombie","Balai","Chaudron","Boulet","Bonnet de nuit","Sac de bonbons"];
 const N = COSTUMES.length;
 const $ = id => document.getElementById(id);
 const opts = sel => PEOPLE.forEach(p => sel.add(new Option(p, p)));
@@ -96,7 +96,7 @@ opts($("me"));
 for (let i = 1; i <= N; i++) {
   const li = document.createElement("li"); li.className = "card";
   const p = String(i).padStart(2, "0");
-  li.innerHTML = `<a class="pic" href="img/g${p}.jpg" target="_blank" rel="noopener"><img src="img/g${p}.jpg" alt="Fantôme ${i}" loading="lazy" width="640" height="770"></a><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
+  li.innerHTML = `<a class="pic" href="img/g${p}.jpg?v=29" target="_blank" rel="noopener"><img src="img/g${p}.jpg?v=29" alt="Fantôme ${i}" loading="lazy" width="640" height="770"></a><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
     <select id="g${i}" name="Fantôme ${i} · ${COSTUMES[i-1]}"><option value="">Qui se cache là-dessous?</option></select>
     <span class="warn" id="w${i}" hidden></span></div>`;
   $("list").appendChild(li);
