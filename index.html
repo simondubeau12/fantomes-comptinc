@@ -44,6 +44,10 @@ button[disabled] { opacity: .5; }
 .done { text-align: center; padding: 40px 0; }
 .done h2 { font-family: "Creepster", Impact, fantasy; font-weight: 400; color: var(--pumpkin); font-size: 40px; margin: 0 0 8px; }
 [hidden] { display: none !important; }
+li.card { display: flex; flex-direction: column; gap: 10px; padding: 10px; }
+li.card a.pic { display: block; background: #fff; border-radius: 12px; overflow: hidden; }
+li.card img { display: block; width: 100%; height: auto; aspect-ratio: 640 / 770; }
+li.card label { margin: 0; color: var(--bone); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -55,7 +59,7 @@ button[disabled] { opacity: .5; }
 
   <form id="form">
     <div class="wrap" style="padding:0">
-      <p class="intro">Fais le tour du mur, regarde les fantômes dans les yeux et associe chaque numéro à un collègue. <b>Les costumes sont des leurres.</b> Une seule participation par personne.</p>
+      <p class="intro">Regarde chaque fantôme dans les yeux (touche l'image pour l'agrandir) et choisis le collègue qui se cache dessous. <b>Les costumes sont des leurres.</b> Une seule participation par personne.</p>
       <div>
         <label class="lab" for="me">Ton nom</label>
         <select id="me" name="Ton nom" required><option value="">Choisis ton nom…</option></select>
@@ -89,8 +93,9 @@ const opts = sel => PEOPLE.forEach(p => sel.add(new Option(p, p)));
 
 opts($("me"));
 for (let i = 1; i <= N; i++) {
-  const li = document.createElement("li");
-  li.innerHTML = `<div class="num">${i}</div><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
+  const li = document.createElement("li"); li.className = "card";
+  const p = String(i).padStart(2, "0");
+  li.innerHTML = `<a class="pic" href="img/g${p}.jpg" target="_blank" rel="noopener"><img src="img/g${p}.jpg" alt="Fantôme ${i}" loading="lazy" width="640" height="770"></a><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
     <select id="g${i}" name="Fantôme ${i} · ${COSTUMES[i-1]}"><option value="">Qui se cache là-dessous?</option></select>
     <span class="warn" id="w${i}" hidden></span></div>`;
   $("list").appendChild(li);
