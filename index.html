@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qui est ce fantôme?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&family=Figtree:wght@400;600;700;800&display=swap">
+<style>
+/* ⚙️ Seule chose à changer : l'adresse Formspree, plus bas dans le <script> (FORMSPREE_URL). */
+:root {
+  color-scheme: dark;
+  --night: #15121c; --night-2: #1f1a29; --night-3: #2b2438; --line: #3b3249;
+  --bone: #f3eee6; --mist: #a79fb3; --pumpkin: #ff7a1a; --slime: #8fe36b; --blood: #ff5d6c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--night); color: var(--bone); }
+body { font-family: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.45; }
+.wrap { max-width: 600px; margin: 0 auto; padding: 20px max(16px, env(safe-area-inset-left)) 48px; display: flex; flex-direction: column; gap: 18px; }
+header { display: flex; gap: 14px; align-items: center; }
+h1 { font-family: "Creepster", Impact, fantasy; font-weight: 400; font-size: clamp(34px, 9vw, 46px); line-height: 1; margin: 0; color: var(--pumpkin); }
+.sub { margin: 4px 0 0; color: var(--mist); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+.intro { margin: 0; color: var(--mist); }
+.intro b { color: var(--bone); }
+label.lab { display: block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mist); margin-bottom: 6px; }
+select, input { font: inherit; font-size: 16px; color: var(--bone); background: var(--night-2); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; width: 100%; }
+select:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid var(--pumpkin); outline-offset: 2px; }
+select.filled { border-color: var(--pumpkin); }
+.progress { position: sticky; top: 0; z-index: 5; background: var(--night); padding: 10px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
+.bar { flex: 1; height: 10px; background: var(--night-3); border-radius: 999px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--pumpkin); transition: width .25s; }
+.progress span { font-weight: 800; font-variant-numeric: tabular-nums; }
+ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+li { display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: center; background: var(--night-2); border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+.num { width: 48px; height: 48px; border-radius: 50%; background: var(--bone); color: var(--night); display: grid; place-items: center; font-weight: 800; font-size: 20px; }
+li label { display: block; font-size: 13px; color: var(--mist); font-weight: 600; margin-bottom: 6px; }
+.warn { display: block; font-size: 12.5px; color: var(--blood); font-weight: 600; margin-top: 4px; }
+.tie { background: var(--night-3); border-radius: 16px; padding: 16px; }
+.tie p { margin: 0 0 10px; font-weight: 600; }
+button { font: inherit; font-weight: 800; font-size: 18px; border: 0; border-radius: 14px; padding: 16px; cursor: pointer; background: var(--pumpkin); color: #1b0f05; width: 100%; }
+button[disabled] { opacity: .5; }
+.status { margin: 0; font-weight: 700; min-height: 1.4em; }
+.ok { color: var(--slime); } .err { color: var(--blood); }
+.done { text-align: center; padding: 40px 0; }
+.done h2 { font-family: "Creepster", Impact, fantasy; font-weight: 400; color: var(--pumpkin); font-size: 40px; margin: 0 0 8px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg width="54" height="62" viewBox="0 0 58 66" aria-hidden="true"><path d="M4 30 C4 12 15 3 29 3 C43 3 54 12 54 30 L54 56 C54 63 47 63 45 57 C43 63 36 63 34 57 C32 63 26 63 24 57 C22 63 15 63 13 57 C11 63 4 63 4 56 Z" fill="#f3eee6"/><ellipse cx="21" cy="27" rx="4.5" ry="6" fill="#15121c"/><ellipse cx="37" cy="27" rx="4.5" ry="6" fill="#15121c"/><ellipse cx="29" cy="41" rx="4" ry="5" fill="#15121c"/></svg>
+    <div><h1>Qui est ce fantôme?</h1><p class="sub">Édition ComptInc · Halloween 2026</p></div>
+  </header>
+
+  <form id="form">
+    <div class="wrap" style="padding:0">
+      <p class="intro">Fais le tour du mur, regarde les fantômes dans les yeux et associe chaque numéro à un collègue. <b>Les costumes sont des leurres.</b> Une seule participation par personne.</p>
+      <div>
+        <label class="lab" for="me">Ton nom</label>
+        <select id="me" name="Ton nom" required><option value="">Choisis ton nom…</option></select>
+      </div>
+      <div class="progress"><div class="bar"><i id="bar"></i></div><span id="count"></span></div>
+      <ol id="list"></ol>
+      <div class="tie">
+        <p>Question subsidiaire : combien de fois le mot « facturable » sera dit au bureau cette semaine?</p>
+        <input type="number" id="tie" name="Question subsidiaire : combien de fois « facturable » cette semaine?" inputmode="numeric" min="0" step="1" placeholder="Ton estimation">
+      </div>
+      <button type="submit" id="send">Envoyer mes réponses</button>
+      <p class="status" id="status" role="status"></p>
+    </div>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <h2>Bouh! C'est envoyé.</h2>
+    <p class="intro">Les esprits ont tes réponses. Résultats à la fin de la semaine.</p>
+  </div>
+</div>
+
+<script>
+// ⚙️ Colle ici l'adresse de ton formulaire Formspree (ex. https://formspree.io/f/abcdwxyz)
+const FORMSPREE_URL = "https://formspree.io/f/xvkkryvp";
+
+const PEOPLE = ["Abdul Kader Berete","Alex Girard","Alexandre St-Amour","Alina Polojenco","Constance Athané","David Tak-Yuen Yeung","Edwige Graff","Eric Fournier","Estelle Jarrige","Félix Henri","François Boutin","Frédéric Pétrin","Jay Zhang","Jonathan McCall","Juliette Hall","Juliette Tremblay","Laura Mispoulet","Maude Gascon","Meita Silue","Mylène Charbonneau","Naomie Van Dorpe","Sadaf Zaywari","Sarah Saaoud","Sérine Hamitouche","Simon Dubeau","Sonia Ammar","Virginia"];
+const COSTUMES = ["Squelette","Araignée","Loup-garou","Chauve-souris","Pirate","Bonbon maïs","Bonbons ou sort","Épouvantail","Sorcière","Ange","Chauve-souris perchée","Diable","Frankenstein","Magicien","Dracula","Tête de citrouille","Roi des morts","Fiancée","Momie","Chat noir","Zombie","Balai","Chaudron","Boulet","Bonnet de nuit","Sac de bonbons","Clown"];
+const N = COSTUMES.length;
+const $ = id => document.getElementById(id);
+const opts = sel => PEOPLE.forEach(p => sel.add(new Option(p, p)));
+
+opts($("me"));
+for (let i = 1; i <= N; i++) {
+  const li = document.createElement("li");
+  li.innerHTML = `<div class="num">${i}</div><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
+    <select id="g${i}" name="Fantôme ${i} · ${COSTUMES[i-1]}"><option value="">Qui se cache là-dessous?</option></select>
+    <span class="warn" id="w${i}" hidden></span></div>`;
+  $("list").appendChild(li);
+  opts(li.querySelector("select"));
+}
+
+function refresh() {
+  const used = {}; let n = 0;
+  for (let i = 1; i <= N; i++) { const v = $("g" + i).value; if (v) { (used[v] = used[v] || []).push(i); n++; } }
+  for (let i = 1; i <= N; i++) {
+    const s = $("g" + i), v = s.value, others = v ? used[v].filter(k => k !== i) : [];
+    s.classList.toggle("filled", !!v);
+    $("w" + i).hidden = !others.length;
+    if (others.length) $("w" + i).textContent = "Déjà choisi pour le fantôme " + others.join(", ");
+  }
+  $("bar").style.width = (n / N * 100) + "%";
+  $("count").textContent = n + " / " + N;
+  try { localStorage.setItem("fantomes", JSON.stringify(Object.fromEntries(new FormData($("form"))))); } catch (e) {}
+}
+// brouillon conservé sur le téléphone
+try { const d = JSON.parse(localStorage.getItem("fantomes") || "{}"); for (const [k, v] of Object.entries(d)) { const el = document.querySelector(`[name="${CSS.escape(k)}"]`); if (el) el.value = v; } } catch (e) {}
+$("form").addEventListener("change", refresh); $("tie").addEventListener("input", refresh);
+refresh();
+
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const st = $("status");
+  if (!$("me").value) { st.textContent = "Choisis ton nom en haut."; st.className = "status err"; $("me").focus(); return; }
+  const filled = [...Array(N)].filter((_, i) => $("g" + (i + 1)).value).length;
+  if (filled < N && !st.dataset.confirm) { st.textContent = `Il te manque ${N - filled} fantôme(s). Appuie encore pour envoyer quand même.`; st.className = "status err"; st.dataset.confirm = "1"; return; }
+  $("send").disabled = true; st.textContent = "Envoi aux esprits…"; st.className = "status";
+  try {
+    const r = await fetch(FORMSPREE_URL, { method: "POST", body: new FormData($("form")), headers: { Accept: "application/json" } });
+    if (!r.ok) throw new Error(r.status);
+    try { localStorage.removeItem("fantomes"); } catch (e) {}
+    $("form").hidden = true; $("done").hidden = false; window.scrollTo(0, 0);
+  } catch (err) {
+    st.textContent = "L'envoi n'a pas fonctionné. Vérifie ta connexion et réessaie."; st.className = "status err";
+    $("send").disabled = false;
+  }
+});
+</script>
+</body>
+</html>
