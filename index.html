@@ -44,10 +44,11 @@ button[disabled] { opacity: .5; }
 .done { text-align: center; padding: 40px 0; }
 .done h2 { font-family: "Creepster", Impact, fantasy; font-weight: 400; color: var(--pumpkin); font-size: 40px; margin: 0 0 8px; }
 [hidden] { display: none !important; }
-li.card { display: flex; flex-direction: column; gap: 10px; padding: 10px; }
+li.card { display: flex; flex-direction: column; align-items: stretch; gap: 10px; padding: 10px; }
+li.card label { display: block; margin-bottom: 6px; }
 li.card a.pic { display: block; background: #fff; border-radius: 12px; overflow: hidden; }
 li.card img { display: block; width: 100%; height: auto; aspect-ratio: 640 / 770; }
-li.card label { margin: 0; color: var(--bone); font-size: 14px; }
+li.card label { margin: 0 0 6px; color: var(--bone); font-size: 14px; }
 </style>
 </head>
 <body>
