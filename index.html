@@ -96,7 +96,7 @@ opts($("me"));
 for (let i = 1; i <= N; i++) {
   const li = document.createElement("li"); li.className = "card";
   const p = String(i).padStart(2, "0");
-  li.innerHTML = `<a class="pic" href="img/g${p}.jpg?v=29" target="_blank" rel="noopener"><img src="img/g${p}.jpg?v=29" alt="Fantôme ${i}" loading="lazy" width="640" height="770"></a><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
+  li.innerHTML = `<a class="pic" href="img/g${p}.jpg?v=bw" target="_blank" rel="noopener"><img src="img/g${p}.jpg?v=bw" alt="Fantôme ${i}" loading="lazy" width="640" height="770"></a><div><label for="g${i}">Fantôme ${i} · ${COSTUMES[i-1]}</label>
     <select id="g${i}" name="Fantôme ${i} · ${COSTUMES[i-1]}"><option value="">Qui se cache là-dessous?</option></select>
     <span class="warn" id="w${i}" hidden></span></div>`;
   $("list").appendChild(li);
